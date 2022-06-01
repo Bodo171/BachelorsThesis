@@ -1,31 +1,36 @@
-import {useState} from "react";
-
+import {useState, useContext} from "react";
+import { StatementContext } from "../../StatementProvider.tsx";
+import StyledButton from "../../stylecomponents/button.tsx";
 
 interface StatementFormProps{
     onFetch?: (url: string) => void;
     onSubmit?: (statement: string) => void;
-    initialStatement?: string;
-    initialUrl?: string;
 }
 export const StatementForm: React.FC<StatementFormProps> = ({onFetch, onSubmit, initialStatement, initialUrl}) => {
-    const [statement, setStatement] = useState(initialStatement || '');
-    const [url, setUrl] = useState(initialUrl || '');
+    const {inputUrl, inputStatement} = useContext(StatementContext)
+    const [statement, setStatement] = useState(inputUrl || '');
+    const [url, setUrl] = useState(inputStatement || '');
     return <>
-        <input placeholder="url" onChange={(e) => {setUrl(e.target.value)}}/>
+        <input
+            value={inputUrl}
+            placeholder="url" 
+            onChange={(e) => {setUrl(e.target.value)}}
+        />
         <br/> <br/>
-        <button onClick={() => {onFetch(statement)}}>
+        <StyledButton onClick={() => {onFetch(url)}}>
             Load from url
-        </button>
+        </StyledButton>
         <br/> <br/>
         <textarea placeholder="statement"
                   rows={10}
                   cols={50}
+                  value={inputStatement}
                   onChange={(e) => {setStatement(e.target.value)}}
         />
         <br/> <br/>
-        <button onClick={() => {onSubmit(statement)}}>
+        <StyledButton onClick={() => {onSubmit(statement)}}>
             Submit
-        </button>
+        </StyledButton>
         <br/> <br/>
     </>;
 }

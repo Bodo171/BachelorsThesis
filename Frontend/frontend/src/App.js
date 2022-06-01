@@ -7,13 +7,16 @@ import {StatementProvider} from "./StatementProvider.tsx";
 
 function App() {
   return <>
+    <h1 className="title">Statement label predictor</h1>
     <StatementProvider>
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Homepage/>} />
-                <Route path="/report/:id" element={<ReportPage/>} />
-            </Routes>
-        </BrowserRouter>
+      <div className="mainLayout">
+          <BrowserRouter>
+              <Routes>
+                  <Route path="/" element={<Homepage/>} />
+                  <Route path="/report/:id" element={<ReportPage/>} />
+              </Routes>
+          </BrowserRouter>
+      </div>
     </StatementProvider>
   </>
 }

@@ -53,14 +53,14 @@ const initialState = {
     inputUrl: null,
     loading: false,
     tags: [],
-    report: {dp: 0.5},
+    report: null,
 }
 export const StatementContext = React.createContext<ProviderState>(initialState);
 
 export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { inputStatement, inputUrl, loading, tags, report } = state;
-    const value = { inputStatement, inputUrl, loading, tags, report, fetchStatement, getTags, getReport};
+    const { inputStatement, inputUrl, loading, tags, report, statementId } = state;
+    const value = { inputStatement, inputUrl, loading, tags, report, fetchStatement, getTags, getReport, statementId};
     return (
         <StatementContext.Provider value={value}>
             {children}
@@ -69,7 +69,8 @@ export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
     async function fetchStatement(url: string){
         try {
             dispatch({type: SET_URL, payload: {url}});
-            const statement = await fetchUrl(url);
+            const {data} = await fetchUrl(url);
+            const {statement} = data;
             dispatch({type: SET_STATEMENT, payload: {statement}});
         } catch(e){
             dispatch({type: FETCH_FAILED, payload: {error: 'Statement fetch failed'}})
@@ -81,7 +82,7 @@ export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
             dispatch({type: GET_PREDICTIONS, payload: {statement}});
             const {data} = await solveStatement(statement);
             const {topPredictions, statementId} = data;
-            console.log(topPredictions, statement)
+            //console.log(topPredictions, statement)
             dispatch({type: SET_PREDICTION_DATA, payload: {tags: topPredictions, statementId: statementId}});
         } catch(e){
             dispatch({type: FETCH_FAILED, payload: {error: 'Prediction failed'}})
@@ -91,7 +92,7 @@ export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
         try{
             dispatch({type: GET_PREDICTIONS});
             const {data} = await getReportApi(id);
-            console.log('data', data)
+            //console.log('data', data)
             dispatch({type: FETCHED_REPORT, payload: {report: data}})
         }catch(e){
             dispatch({type: FETCH_FAILED, payload: {error: 'Prediction failed'}})

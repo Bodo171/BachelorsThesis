@@ -23,10 +23,39 @@ code {
 .tagList {
   display: flex;
   width: 400px;
+  padding: 4px;
 }
 
 .page {
-  margin-left: 10%;
-  margin-right: 10%;
+  /*margin-left: 10%;
+  margin-right: 10%;*/
   margin-top: 20px;
+  padding: 30px;
+  background-color: rgb(246, 245, 245);
+  border-radius: 10px;
+}
+
+.report{
+  margin: 1px;
+}
+
+.mainLayout{
+  display: flex;
+  justify-content: center;
+}
+
+.title{
+  text-align: center;
+}
+
+.customTableContainer{
+  margin : 5px;
+}
+
+tbody:nth-child(2){
+  background-color: lightgray;
+}
+
+Link{
+   text-decoration: none;
 }

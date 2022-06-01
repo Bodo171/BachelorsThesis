@@ -9,7 +9,7 @@ export const fetchUrl = (statementUrl: string) =>{
 
 export const solveStatement: (statement: string) => Promise<{topPredictions: string[], statementId: number}> =
     (statement) => {
-    console.log({statement})
+    //console.log({statement})
     return axios.post(url + 'problem', {statement});
 }
 

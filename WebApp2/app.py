@@ -25,6 +25,10 @@ def get_prediction_report():
     service = service_config.get_default_service()
     return json.dumps(service.get_preds_for_statement_id(request.json['id']))
 
+@app.route('/url', methods=['POST'])
+def get_statement_for_url():
+    service = service_config.get_default_service()
+    return json.dumps({'statement': service.get_statement_for_url(request.json['url'])})
 
 if __name__ == '__main__':
     app.run()

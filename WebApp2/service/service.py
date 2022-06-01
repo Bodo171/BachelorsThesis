@@ -5,6 +5,7 @@ from model.ml_model import MLModel
 from model_repository.ModelRepository import ModelRepository
 from features.feature_generator import FeatureGenerator
 from prediction_repository.prediction_repository import PredictionRepository
+from webparsing.parser_factory import ParserFactory
 
 
 class Service:
@@ -50,4 +51,8 @@ class Service:
     def get_preds_for_statement_id(self, statement_id):
         return self._prediction_repository.get_prediction_dict(statement_id)
 
+    @staticmethod
+    def get_statement_for_url(url):
+        parser = ParserFactory.get_parser(url)
+        return parser.parse(url)
 
