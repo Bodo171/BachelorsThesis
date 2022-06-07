@@ -1,16 +1,22 @@
 import requests
 import scrapy
+import time
 
+from pyvirtualdisplay import Display
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+
 
 from webparsing.parser import Parser
 
 
 class CodeforcesParser(Parser):
     special_chars = {'$', '{', '}'}
+    redirect_string = "document.location.href"
     def _clean_special_chars(self, raw_str):
         ascii_str = "".join(c for c in raw_str if c.isascii())
         idx = 0
@@ -28,11 +34,13 @@ class CodeforcesParser(Parser):
         return filtered_str
 
     def _clean_body(self, html_doc: str) -> str:
+        print(html_doc)
         soup = BeautifulSoup(html_doc, 'html.parser')
         statement = soup.select('.problem-statement')[0]
         divs = list(statement.children)[1:-2]  # ignoring header and examples
         raw_str = str(" ".join(div.get_text() for div in divs))
         return self._clean_special_chars(raw_str)
+
 
     def parse(self, url: str) -> str:
         """
@@ -40,7 +48,12 @@ class CodeforcesParser(Parser):
         driver.get(url)
         element = driver.find_element(By.CLASS_NAME, 'problem-statement')
         """
-        body = str(requests.get(url).content)
-        ret = self._clean_body(body)
-        # print(ret, type(ret))
+        # body = str(requests.get(url).content)
+        # ret = self._clean_body(body)
+        options = Options()
+        options.add_argument("--headless")
+        driver = webdriver.Firefox(firefox_options=options)
+        driver.get(url)
+        time.sleep(3)
+        ret = self._clean_body(driver.page_source)
         return ret

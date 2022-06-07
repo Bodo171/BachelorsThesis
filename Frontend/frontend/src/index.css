@@ -13,7 +13,7 @@ code {
 }
 
 .tag {
-  background-color: lightgray;
+  /*background-color: lightgray;*/
   border-radius: 2px;
   margin: 1px;
   padding: 3px;
@@ -50,6 +50,17 @@ code {
 
 .customTableContainer{
   margin : 5px;
+}
+
+.styledLink{
+  text-decoration: none;
+}
+
+.paginationContainer{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
 
 tbody:nth-child(2){

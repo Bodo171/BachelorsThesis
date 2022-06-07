@@ -42,9 +42,9 @@ const reducer: (state: ProviderState, action: ActionProps) => ProviderState =
         case SET_PREDICTION_DATA:
             return {...state, statementId: payload.statementId, tags: payload.tags, loading: false, error: null};
         case FETCHED_REPORT:
-            return {...state, report: payload.report};
+            return {...state, report: payload.report, loading: false, error: null};
             default:
-            return state;
+        return state;
     }
 
 }
@@ -59,8 +59,8 @@ export const StatementContext = React.createContext<ProviderState>(initialState)
 
 export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { inputStatement, inputUrl, loading, tags, report, statementId } = state;
-    const value = { inputStatement, inputUrl, loading, tags, report, fetchStatement, getTags, getReport, statementId};
+    const { inputStatement, inputUrl, loading, tags, report, statementId, error } = state;
+    const value = { inputStatement, inputUrl, loading, tags, report, fetchStatement, getTags, getReport, statementId, error};
     return (
         <StatementContext.Provider value={value}>
             {children}
@@ -71,6 +71,7 @@ export const StatementProvider: React.FC<ProviderProps> = ({children}) => {
             dispatch({type: SET_URL, payload: {url}});
             const {data} = await fetchUrl(url);
             const {statement} = data;
+            console.log("fetching statement from", url);
             dispatch({type: SET_STATEMENT, payload: {statement}});
         } catch(e){
             dispatch({type: FETCH_FAILED, payload: {error: 'Statement fetch failed'}})

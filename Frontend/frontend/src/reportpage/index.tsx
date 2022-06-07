@@ -1,6 +1,7 @@
 import {useParams, Link} from 'react-router-dom'
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import StyledButton from '../stylecomponents/button.tsx';
+import StyledLink from '../stylecomponents/link.tsx';
 import Report from "./components/report.tsx";
 import {StatementContext} from "../StatementProvider.tsx";
 
@@ -14,9 +15,9 @@ const ReportPage: React.FC = () => {
     //console.log("myreport", report);
     return <div className="page">
         {report && <Report data={report}/>}
-        <Link to={'/'}> 
+        <StyledLink to={'/'}> 
             <StyledButton color="info" variant="contained">Home</StyledButton>
-        </Link>
+        </StyledLink>
     </div>
 }
 
