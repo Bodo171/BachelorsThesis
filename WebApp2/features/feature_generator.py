@@ -26,3 +26,11 @@ class TokenFeatureGenerator(FeatureGenerator):
         return features
 
 
+
+class PlainTextFeatureGenerator(FeatureGenerator):
+    @staticmethod
+    def __load_tokens():
+        return json.load(open(str(pathlib.Path(__file__).parent.resolve()) + '/storage/tokens.json', 'r'))
+
+    def generate(self, text):
+        return text
